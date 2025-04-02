@@ -12,6 +12,8 @@ import {
 	updateUReceTime,
 	updateURecrTime,
 	updateUndoTime,
+	sendsonfader,
+	soloactive,
 } from './variables.js'
 import { IStoredChannelObserver, X32State, X32Subscriptions } from './state.js'
 import osc from 'osc'
@@ -209,6 +211,8 @@ class X32Instance extends InstanceBase<X32Config> implements InstanceBaseExt<X32
 		updateNameVariables(this, this.x32State)
 		updateSelectedVariables(this, this.x32State)
 		updateUndoTime(this, this.x32State)
+		sendsonfader(this, this.x32State)
+		soloactive(this, this.x32State)
 
 		// Ensure all feedbacks & actions have an initial value, if we are connected
 		if (this.heartbeat) {
@@ -388,6 +392,14 @@ class X32Instance extends InstanceBase<X32Config> implements InstanceBaseExt<X32
 
 				case '/-stat/urec/rtime':
 					updateURecrTime(this, this.x32State)
+					break
+
+				case '/-stat/sendsonfader':
+					sendsonfader(this, this.x32State)
+					break
+
+				case '/-stat/solo':
+					soloactive(this, this.x32State)
 					break
 			}
 		})

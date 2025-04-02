@@ -68,6 +68,14 @@ export function InitVariables(instance: InstanceBaseExt<X32Config>, state: X32St
 			name: 'Undo Time',
 			variableId: 'undo_time',
 		},
+		{
+			name: 'Sends on Fader',
+			variableId: 'sends_on_fader',
+		},
+		{
+			name: 'Solo Active',
+			variableId: 'solo_active',
+		},
 	]
 
 	const targets = GetTargetChoices(state, { includeMain: true, defaultNames: true })
@@ -244,5 +252,21 @@ export function updateUndoTime(instance: InstanceBaseExt<X32Config>, state: X32S
 	const time = undoTime && undoTime[0]?.type === 's' ? undoTime[0].value : ''
 	instance.setVariableValues({
 		undo_time: time ? time : '--:--:--',
+	})
+}
+
+export function sendsonfader(instance: InstanceBaseExt<X32Config>, state: X32State): void {
+	const sofin = state.get('/-stat/sendsonfader')
+	const sof = sofin && sofin[0]?.type === 'i' ? sofin[0].value : 0
+	instance.setVariableValues({
+		sends_on_fader: `${sof}`,
+	})
+}
+
+export function soloactive(instance: InstanceBaseExt<X32Config>, state: X32State): void {
+	const soloin = state.get('/-stat/solo')
+	const soloa = soloin && soloin[0]?.type === 'i' ? soloin[0].value : 0
+	instance.setVariableValues({
+		solo_active: `${soloa}`,
 	})
 }
